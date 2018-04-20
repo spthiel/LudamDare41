@@ -7,18 +7,22 @@ function setup() {
 	screen.h = window.innerHeight;
 	let canvas = createCanvas(screen.w,screen.h);
 	document.getElementsByClassName("placeholder")[0].appendChild(canvas.canvas);
-	frame = 0;
 }
 
 function getColor(frame) {
-	return "hsv(" + frame%360 + ")";
+	return "hsl(" + (frame%720/2) + ",100%,50%)";
 }
 
 function draw() {
-	fill(100);
-	translate(screen.w/2,screen.h/2);
-	textAlign(CENTER,TOP);
-	text("Something big will be here (maybe)");
+	background(100);
+	push();
+		fill(getColor(frame));
+		textSize(32);
+		translate(screen.w/2,screen.h/2);
+		textAlign(CENTER,TOP);
+		text("Something big will be here (maybe)",0,0);
+	pop();
+	frame++;
 }
 
 window.addEventListener( 'resize', function() {
