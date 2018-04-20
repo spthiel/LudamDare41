@@ -1,5 +1,5 @@
 
-var frame;
+var frame = 0;
 var screen;
 
 function setup() {
@@ -10,7 +10,7 @@ function setup() {
 }
 
 function getColor(frame) {
-	return "hsl(" + (frame%720/2) + ",100%,50%)";
+	return "hsl(" + (frame%720/2 | 0) + ",100%,50%)";
 }
 
 function draw() {
