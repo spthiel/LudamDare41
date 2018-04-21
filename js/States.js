@@ -114,13 +114,16 @@ function updateMenu(hover) {
 		translate(screen.w/2,screen.h/2);
 		textAlign(CENTER,CENTER);
 		textSize(cellwidth/2);
+		stroke(0);
 		push();
 			fill(BUTTONCOLOR);
 			if(hover != undefined && hover == 0) {
 				fill(200);
 			}
+			strokeWeight(3);
 			translate(0,-cellwidth*3/2-cellwidth/4-cellwidth/8);
 			rect(-3*cellwidth,-cellwidth/2,6*cellwidth,cellwidth,10,10);
+			noStroke();
 			fill(BUTTONTEXTCOLOR);
 			text("EASY",0,0);
 		pop();
@@ -129,8 +132,10 @@ function updateMenu(hover) {
 			if(hover != undefined && hover == 1) {
 				fill(200);
 			}
+			strokeWeight(3);
 			translate(0,-cellwidth/2-cellwidth/8);
 			rect(-3*cellwidth,-cellwidth/2,6*cellwidth,cellwidth,10,10);
+			noStroke();
 			fill(BUTTONTEXTCOLOR);
 			text("MEDIUM",0,0);
 		pop();
@@ -139,8 +144,10 @@ function updateMenu(hover) {
 			if(hover != undefined && hover == 2) {
 				fill(200);
 			}
+			strokeWeight(3);
 			translate(0,cellwidth/2+cellwidth/8);
 			rect(-3*cellwidth,-cellwidth/2,6*cellwidth,cellwidth,10,10);
+			noStroke();
 			fill(BUTTONTEXTCOLOR);
 			text("INSANE",0,0);
 		pop();
@@ -149,8 +156,10 @@ function updateMenu(hover) {
 			if(hover != undefined && hover == 3) {
 				fill(200);
 			}
+			strokeWeight(3);
 			translate(0,cellwidth*3/2+cellwidth/4+cellwidth/8);
 			rect(-3*cellwidth,-cellwidth/2,6*cellwidth,cellwidth,10,10);
+			noStroke();
 			fill(BUTTONTEXTCOLOR);
 			text("OPTIONS",0,0);
 		pop();

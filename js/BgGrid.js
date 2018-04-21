@@ -2,8 +2,6 @@ class BgGrid {
 
 	constructor(fwidth,fheight,spacing,borderwidth) {
 
-		console.log(borderwidth);
-
 		this.grid = [];
 
 		this.width = fwidth/spacing | 0;

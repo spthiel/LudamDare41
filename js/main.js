@@ -58,7 +58,7 @@ function setup() {
 		cellwidth = screen.w*0.8/5;
 	if(grid)
 		grid.resize();
-	bg = new BgGrid(screen.w,screen.h,30,3);
+	bg = new BgGrid(screen.w,screen.h,50,3);
 }
 
 function setupGame(difficultyChoosen) {
@@ -84,6 +84,7 @@ function setupGame(difficultyChoosen) {
 	grid = new Grid();
 	gamestate = "start";
 	quickies = [];
+	possibleNumbers = [];
 	for(let i = 0; i < highestNumber; i++) {
 		possibleNumbers[i] = i+1;
 	}
@@ -99,6 +100,7 @@ function setupEasyGame() {
 }
 
 function setupMediumGame() {
+	health = 5;
 	highestNumber = 100;
 	maxtimetoclick = 3000;
 	maxspawndelay = 5000;

@@ -108,12 +108,9 @@ class Grid {
 		push();
 			translate(this.center.x,this.center.y);
 			push();
-				fill("rgba(0,0,0,.1)");
-				noStroke();
-				for(let i = 0; i < 10; i++) {
-					let width = i;
-					rect(-(2.5)*cellwidth-width,-(2.5)*cellwidth-width,(2.5)*2*cellwidth+width*2,(2.5)*2*cellwidth+width*2,10,10);
-				}
+				fill("rgba(0,0,0)");
+				strokeWeight(5);
+				rect(-(2.5)*cellwidth,-(2.5)*cellwidth,(2.5)*2*cellwidth,(2.5)*2*cellwidth);
 			pop();
 
 			for(let x = 0; x < this.width; x++) {
@@ -174,7 +171,7 @@ class Cell {
 		if(this.state != 2) {
 			fill(BUTTONTEXTCOLOR);
 			noStroke();
-			textSize(cellwidth/4);
+			textSize(cellwidth/3);
 			textAlign(CENTER,CENTER);
 			text(this.number == undefined ? this.text : this.number + "" +  this.text,0,0);
 		}
