@@ -105,8 +105,16 @@ class Grid {
 	}
 
 	drawAll() {
-		push()
+		push();
 			translate(this.center.x,this.center.y);
+			push();
+				fill("rgba(0,0,0,.1)");
+				noStroke();
+				for(let i = 0; i < 10; i++) {
+					let width = i;
+					rect(-(2.5)*cellwidth-width,-(2.5)*cellwidth-width,(2.5)*2*cellwidth+width*2,(2.5)*2*cellwidth+width*2,10,10);
+				}
+			pop();
 
 			for(let x = 0; x < this.width; x++) {
 				for(let y = 0; y < this.height; y++) {
@@ -154,7 +162,7 @@ class Cell {
 			let b = map(Date.now()-this.changingStart,0,timeToChange,0,255);
 			fill(r,b,b);
 		} else if(this.state == 0) {
-			fill(255);
+			fill(BUTTONCOLOR);
 		} else if(this.state == 1) {
 			fill(150,0,0);
 			this.changeStateLater();
@@ -164,7 +172,7 @@ class Cell {
 		stroke(0);
 		rect(-cellwidth/2,-cellwidth/2,cellwidth,cellwidth);
 		if(this.state != 2) {
-			fill(0);
+			fill(BUTTONTEXTCOLOR);
 			noStroke();
 			textSize(cellwidth/4);
 			textAlign(CENTER,CENTER);

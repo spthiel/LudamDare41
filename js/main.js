@@ -1,4 +1,8 @@
 
+const TEXTCOLOR = "rgb(255,255,255)";
+const BUTTONCOLOR = "rgb(255,255,255)";
+const BUTTONTEXTCOLOR = "rgb(0,0,0)";
+
 const maxups = 60.0;
 var highestNumber = 100;
 var maxtimetoclick = 3000;
@@ -38,6 +42,9 @@ gamestate = "menu"
 var hover = -1;
 var difficultyGame = "undef";
 
+var bg;
+
+
 function setup() {
 	if (!Date.now) {
     	Date.now = function() { return new Date().getTime(); }
@@ -51,6 +58,7 @@ function setup() {
 		cellwidth = screen.w*0.8/5;
 	if(grid)
 		grid.resize();
+	bg = new BgGrid(screen.w,screen.h,30,3);
 }
 
 function setupGame(difficultyChoosen) {
@@ -68,6 +76,9 @@ function setupGame(difficultyChoosen) {
 			difficultyGame = "insane";
 			break;
 	}
+	number = undefined;
+	kills = 0;
+	score = 0;
 	lastUpdate = 0;
 	lastReaction = Date.now();
 	grid = new Grid();
@@ -81,6 +92,7 @@ function setupGame(difficultyChoosen) {
 }
 
 function setupEasyGame() {
+	health = 0;
 	highestNumber = 70;
 	maxtimetoclick = 10000;
 	maxspawndelay = 10000;
@@ -93,6 +105,7 @@ function setupMediumGame() {
 }
 
 function setupInsaneGame() {
+	health = 1;
 	highestNumber = 300;
 	maxtimetoclick = 2000;
 	maxspawndelay = 2000;
@@ -131,7 +144,15 @@ function draw() {
 
 
 function update() {
-	background(100);
+	background(0);
+	bg.draw();
+	push();
+		translate(10,10);
+		textAlign(LEFT,TOP);
+		textSize(cellwidth/4);
+		fill(TEXTCOLOR);
+		text("Press ESC to get back to the main menu.\nRules:\n\t1. Get a bingo (5 in a row).\n\t2. Press your board to recycle the number.\n\t3. Don't die.",0,0);
+	pop();
 
 	switch(gamestate) {
 		case "game":

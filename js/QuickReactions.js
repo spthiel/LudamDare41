@@ -17,21 +17,25 @@ class QuickReactions {
 	draw() {
 		if(maxtimetoclick-((Date.now()-this.timestart)*difficulty) < 0) {
 			this.isDead = true;
-			health--;
-			if(health == 0) {
-				endGame();
+			if(difficultyGame != "easy") {
+				health--;
+				if(health == 0) {
+					endGame();
+				}
+			} else {
+				health++;
 			}
 		}
 		push();
 			//rotate(this.deg);
 			push();
-				fill(0,255,0);
+				fill(255,255,255);
 				noStroke();
 				rect(this.x1,this.y1,cellwidth,cellwidth,cellwidth/5,cellwidth/5);
 			pop();
 			push();
-				noFill();
-				stroke('rgba(0,0,200,.5)');
+				fill("rgba(255,255,255,.1)");
+				stroke('rgba(255,255,255,.7)');
 				let radius = cellwidth/3-cellwidth/3*((Date.now()-this.timestart)*difficulty/maxtimetoclick);
 				rect(this.x1-radius,this.y1-radius,cellwidth+2*radius,cellwidth+2*radius,cellwidth/5,cellwidth/5);
 			pop();

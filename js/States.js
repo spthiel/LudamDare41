@@ -16,7 +16,7 @@ function updateGame() {
 
 	push();
 		translate(screen.w/2,screen.h/2);
-		fill(0);
+		fill(TEXTCOLOR);
 		noStroke();
 		textSize(cellwidth*4);
 		textAlign(CENTER,BOTTOM);
@@ -27,7 +27,7 @@ function updateGame() {
 	pop();
 
 	push();
-
+		fill(TEXTCOLOR);
 		translate(10,screen.h-10);
 		textSize(cellwidth/4);
 		textAlign(LEFT,BOTTOM);
@@ -49,22 +49,26 @@ function updateStart() {
 
 	push();
 		translate(screen.w/2,screen.h/2-cellwidth);
-		fill(0);
+		fill(TEXTCOLOR);
 		noStroke();
 		textSize(cellwidth/2);
 		textAlign(CENTER,CENTER);
 		text("Enter your bingo numbers below\n(1 to " + highestNumber + ")",0,0);
 	pop();
 	push();
+		fill(BUTTONCOLOR);
 		translate(screen.w-cellwidth,screen.h-cellwidth/2-cellwidth/4);
-		rect(-cellwidth/2,-cellwidth/4,cellwidth,cellwidth/2);
+		rect(-cellwidth/2,-cellwidth/4,cellwidth,cellwidth/2,5,5);
+		fill(BUTTONTEXTCOLOR);
 		textSize(cellwidth/4);
 		textAlign(CENTER,CENTER);
 		text("START",0,0);
 	pop();
 	push();
+		fill(BUTTONCOLOR);
 		translate(screen.w-cellwidth,screen.h-cellwidth-cellwidth/2);
-		rect(-cellwidth/2,-cellwidth/4,cellwidth,cellwidth/2);
+		rect(-cellwidth/2,-cellwidth/4,cellwidth,cellwidth/2,5,5);
+		fill(BUTTONTEXTCOLOR);
 		textSize(cellwidth/4);
 		textAlign(CENTER,CENTER);
 		text("RAN",0,0);
@@ -78,13 +82,13 @@ var statstext = "Difficulty: $difficulty\nLevel: $level\nHealth: $health\nKills:
 function updateWin() {
 	push();
 		translate(screen.w/2,screen.h/2-cellwidth);
-		fill(0);
+		fill(TEXTCOLOR);
 		noStroke();
 		textSize(cellwidth/2);
 		textAlign(CENTER,BOTTOM);
 		text("Congratulations, you won!\n",0,0);
 		textAlign(LEFT,TOP);
-		translate(-200,0);
+		translate(-cellwidth*2,0);
 		textSize(cellwidth/4);
 		displayscores();
 	pop();
@@ -93,13 +97,13 @@ function updateWin() {
 function updateLose() {
 	push();
 		translate(screen.w/2,screen.h/2-cellwidth);
-		fill(0);
+		fill(TEXTCOLOR);
 		noStroke();
 		textSize(cellwidth/2);
 		textAlign(CENTER,BOTTOM);
-		text("The green squares ran you over.\nYou died!",0,0);
+		text("The green squares ran you over.\nYou died!\n",0,0);
 		textAlign(LEFT,TOP);
-		translate(-200,0);
+		translate(-cellwidth*2,0);
 		textSize(cellwidth/4);
 		displayscores();
 	pop();
@@ -111,39 +115,43 @@ function updateMenu(hover) {
 		textAlign(CENTER,CENTER);
 		textSize(cellwidth/2);
 		push();
+			fill(BUTTONCOLOR);
 			if(hover != undefined && hover == 0) {
 				fill(200);
 			}
 			translate(0,-cellwidth*3/2-cellwidth/4-cellwidth/8);
-			rect(-3*cellwidth,-cellwidth/2,6*cellwidth,cellwidth);
-			fill(0);
+			rect(-3*cellwidth,-cellwidth/2,6*cellwidth,cellwidth,10,10);
+			fill(BUTTONTEXTCOLOR);
 			text("EASY",0,0);
 		pop();
 		push();
+			fill(BUTTONCOLOR);
 			if(hover != undefined && hover == 1) {
 				fill(200);
 			}
 			translate(0,-cellwidth/2-cellwidth/8);
-			rect(-3*cellwidth,-cellwidth/2,6*cellwidth,cellwidth);
-			fill(0);
+			rect(-3*cellwidth,-cellwidth/2,6*cellwidth,cellwidth,10,10);
+			fill(BUTTONTEXTCOLOR);
 			text("MEDIUM",0,0);
 		pop();
 		push();
+			fill(BUTTONCOLOR);
 			if(hover != undefined && hover == 2) {
 				fill(200);
 			}
 			translate(0,cellwidth/2+cellwidth/8);
-			rect(-3*cellwidth,-cellwidth/2,6*cellwidth,cellwidth);
-			fill(0);
+			rect(-3*cellwidth,-cellwidth/2,6*cellwidth,cellwidth,10,10);
+			fill(BUTTONTEXTCOLOR);
 			text("INSANE",0,0);
 		pop();
 		push();
+			fill(BUTTONCOLOR);
 			if(hover != undefined && hover == 3) {
 				fill(200);
 			}
 			translate(0,cellwidth*3/2+cellwidth/4+cellwidth/8);
-			rect(-3*cellwidth,-cellwidth/2,6*cellwidth,cellwidth);
-			fill(0);
+			rect(-3*cellwidth,-cellwidth/2,6*cellwidth,cellwidth,10,10);
+			fill(BUTTONTEXTCOLOR);
 			text("OPTIONS",0,0);
 		pop();
 
@@ -158,6 +166,9 @@ function displayscores() {
 		timeto = Date.now();
 	let formattime = formatTime(timeto-startTime);
 	let t = statstext.replace("$score",(score/100 | 0)).replace("$level","" + diffToLevel()).replace("$health",health).replace("$kills",kills).replace("$time",formattime).replace("$difficulty",difficultyGame);
+	if(difficultyGame == "easy") {
+		t = t.replace("Health","Amount of Damage received");
+	}
 	text(t,0,0);
 }
 
