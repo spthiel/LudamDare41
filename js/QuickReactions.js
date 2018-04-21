@@ -18,6 +18,9 @@ class QuickReactions {
 		if(maxtimetoclick-((Date.now()-this.timestart)*difficulty) < 0) {
 			this.isDead = true;
 			health--;
+			if(health == 0) {
+				endGame();
+			}
 		}
 		push();
 			//rotate(this.deg);

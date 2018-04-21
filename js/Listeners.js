@@ -2,16 +2,18 @@
 window.addEventListener( 'click', e => {
 	if(gamestate == "start") {
 		if(e.x > screen.w-cellwidth/2*3 && e.x < screen.w-cellwidth/2 && e.y < screen.h-cellwidth/2 && e.y > screen.h-cellwidth) {
-			gamestate = "game";
-			startTime = Date.now();
-			if(activeCell) {
-				activeCell.isActive = false;
-				activeCell = undefined;
+			if(grid.checkGrid()) {
+				gamestate = "game";
+				startTime = Date.now();
+				if(activeCell) {
+					activeCell.isActive = false;
+					activeCell = undefined;
+				}
 			}
 		} else if(e.x > screen.w-cellwidth/2*3 && e.x < screen.w-cellwidth/2 && e.y < screen.h-cellwidth-cellwidth/4 && e.y > screen.h-cellwidth-cellwidth/2-cellwidth/4) {
 			grid.foreach(cell => {
 				do {
-					cell.number = random(highestNumber) | 0
+					cell.number = random(highestNumber)+1 | 0
 				} while(grid.definedNumbers(cell).includes(cell.number))
 			});
 		} else {
@@ -57,8 +59,8 @@ window.addEventListener( 'click', e => {
 });
 
 window.onkeyup = e => {
+	var key = e.keyCode ? e.keyCode : e.which;
 	if(gamestate == "start" && activeCell) {
-		var key = e.keyCode ? e.keyCode : e.which;
 		if(48 <= key && 57 >= key && gamestate == "start" && activeCell) {
 			let entered = key-48;
 			let currentNumber = activeCell.number;
@@ -80,11 +82,52 @@ window.onkeyup = e => {
 			activeCell.isActive = false;
 			activeCell = undefined
 		}
+	} else if(key == 27 || key == 8) {
+		gamestate = "menu";
 	}
 }
+
 
 window.addEventListener( 'resize', function() {
 
   setup();
 
+});
+
+window.addEventListener( 'click', e => {
+	let x = e.x;
+	let y = e.y;
+	if(gamestate == "menu") {
+		if(x > screen.w/2-3*cellwidth && x < screen.w/2+3*cellwidth) {
+			if(y > screen.h/2-2*cellwidth-cellwidth/4-cellwidth/8 && y < screen.h/2-cellwidth-cellwidth/4-cellwidth/8) {
+				setupGame(1);
+			} else if(y > screen.h/2-cellwidth-cellwidth/8 && y < screen.h/2-cellwidth/8) {
+				setupGame(2);
+			} else if(y < screen.h/2+cellwidth+cellwidth/8 && y > screen.h/2+cellwidth/8) {
+				setupGame(3);
+			} else if(y < screen.h/2+2*cellwidth+cellwidth/4+cellwidth/8 && y > screen.h/2+cellwidth+cellwidth/4+cellwidth/8) {
+				gamestate = "options";
+			}
+		}
+	}
+});
+
+window.addEventListener( 'mousemove', e => {
+	let x = e.x;
+	let y = e.y;
+	if(gamestate == "menu") {
+		if(x > screen.w/2-3*cellwidth && x < screen.w/2+3*cellwidth) {
+			if(y > screen.h/2-2*cellwidth-cellwidth/4-cellwidth/8 && y < screen.h/2-cellwidth-cellwidth/4-cellwidth/8) {
+				hover = 0;
+			} else if(y > screen.h/2-cellwidth-cellwidth/8 && y < screen.h/2-cellwidth/8) {
+				hover = 1;
+			} else if(y < screen.h/2+cellwidth+cellwidth/8 && y > screen.h/2+cellwidth/8) {
+				hover = 2;
+			} else if(y < screen.h/2+2*cellwidth+cellwidth/4+cellwidth/8 && y > screen.h/2+cellwidth+cellwidth/4+cellwidth/8) {
+				hover = 3;
+			} else {
+				hover = -1;
+			}
+		}
+	}
 });

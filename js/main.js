@@ -1,8 +1,8 @@
 
 const maxups = 60.0;
-const highestNumber = 100;
-const maxtimetoclick = 3000;
-const maxspawndelay = 5000;
+var highestNumber = 100;
+var maxtimetoclick = 3000;
+var maxspawndelay = 5000;
 
 var frame = 0;
 var screen;
@@ -33,7 +33,9 @@ var score = 0;
 
 var quickies;
 
-var started;
+gamestate = "menu"
+
+var hover = -1;
 
 function setup() {
 	if (!Date.now) {
@@ -48,9 +50,6 @@ function setup() {
 		cellwidth = screen.w*0.8/5;
 	if(grid)
 		grid.resize();
-	if(!started)
-	setupGame(2);
-	started = true;
 }
 
 function setupGame(difficultyChoosen) {
@@ -67,28 +66,32 @@ function setupGame(difficultyChoosen) {
 	}
 	lastUpdate = 0;
 	lastReaction = Date.now();
-	if(!grid) {
-		grid = new Grid();
-		gamestate = "start";
-		quickies = [];
-		for(let i = 0; i < highestNumber; i++) {
-			possibleNumbers[i] = i+1;
-		}
-		grid.resize();
+	grid = new Grid();
+	gamestate = "start";
+	quickies = [];
+	for(let i = 0; i < highestNumber; i++) {
+		possibleNumbers[i] = i+1;
 	}
+	grid.resize();
 	angleMode(DEGREES);
 }
 
 function setupEasyGame() {
-
+	highestNumber = 70;
+	maxtimetoclick = 10000;
+	maxspawndelay = 10000;
 }
 
 function setupMediumGame() {
-
+	highestNumber = 100;
+	maxtimetoclick = 3000;
+	maxspawndelay = 5000;
 }
 
 function setupInsaneGame() {
-
+	highestNumber = 300;
+	maxtimetoclick = 2000;
+	maxspawndelay = 2000;
 }
 
 function getColor(frame) {
@@ -104,6 +107,13 @@ function removeNumber() {
 			return;
 		}
 	}
+}
+
+function endGame(){
+
+	gamestate = "lose"
+	endTime = Date.now();
+
 }
 
 function draw() {
@@ -128,6 +138,12 @@ function update() {
 			break;
 		case "win":
 			updateWin();
+			break;
+		case "lose":
+			updateLose();
+			break;
+		case "menu":
+			updateMenu(hover);
 			break;
 	}
 	frame++;

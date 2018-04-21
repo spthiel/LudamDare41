@@ -51,6 +51,19 @@ class Grid {
 		return this.grid[rx][ry];
 	}
 
+	checkGrid() {
+		let bool = true;
+		for(let x = 0; x < this.width; x++) {
+			for(let y = 0; y < this.height; y++) {
+				if(this.grid[x][y].number <= 0) {
+					this.grid[x][y].state = 1;
+					bool = false;
+				}
+			}
+		}
+		return bool;
+	}
+
 	checkDone() {
 		// rows
 		for(let x = 0; x < this.width; x++) {

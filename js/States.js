@@ -26,6 +26,14 @@ function updateGame() {
 		text((number ? number : 0),0,0);
 	pop();
 
+	push();
+
+		translate(10,screen.h-10);
+		textSize(cellwidth/4);
+		textAlign(LEFT,BOTTOM);
+		displayscores();
+	pop();
+
 	for(let i = 0; i < quickies.length; i++) {
 		let reaction = quickies[i];
 		if(reaction.isDead) {
@@ -65,22 +73,20 @@ function updateStart() {
 
 }
 
-var statstext = "Score: $score\nLevel: $level\nHealth: $health\nKills: $kills\nTime: $time";
+var statstext = "Level: $level\nHealth: $health\nKills: $kills\nTime: $time";
 
 function updateWin() {
 	push();
 		translate(screen.w/2,screen.h/2-cellwidth);
 		fill(0);
 		noStroke();
-		textSize(cellwidth);
-		textAlign(CENTER,BOTTOM);
-		text("Congratulations, you won!",0,0);
-		textAlign(LEFT,TOP);
-		translate(-250,0);
 		textSize(cellwidth/2);
-		let formattime = formatTime(endTime-startTime);
-		let t = statstext.replace("$score",(score/100 | 0)).replace("$level","" + diffToLevel()).replace("$health",health).replace("$kills",kills).replace("$time",formattime);
-		text(t,0,0);
+		textAlign(CENTER,BOTTOM);
+		text("Congratulations, you won!\n",0,0);
+		textAlign(LEFT,TOP);
+		translate(-200,0);
+		textSize(cellwidth/4);
+		displayscores();
 	pop();
 }
 
@@ -89,16 +95,70 @@ function updateLose() {
 		translate(screen.w/2,screen.h/2-cellwidth);
 		fill(0);
 		noStroke();
-		textSize(cellwidth);
-		textAlign(CENTER,BOTTOM);
-		text("Congratulations, you won!",0,0);
-		textAlign(LEFT,TOP);
-		translate(-250,0);
 		textSize(cellwidth/2);
-		let formattime = formatTime(endTime-startTime);
-		let t = statstext.replace("$score",(score/100 | 0)).replace("$level","" + diffToLevel()).replace("$health",health).replace("$kills",kills).replace("$time",formattime);
-		text(t,0,0);
+		textAlign(CENTER,BOTTOM);
+		text("The green squares ran you over.\nYou died!",0,0);
+		textAlign(LEFT,TOP);
+		translate(-200,0);
+		textSize(cellwidth/4);
+		displayscores();
 	pop();
+}
+
+function updateMenu(hover) {
+	push();
+		translate(screen.w/2,screen.h/2);
+		textAlign(CENTER,CENTER);
+		textSize(cellwidth/2);
+		push();
+			if(hover != undefined && hover == 0) {
+				fill(200);
+			}
+			translate(0,-cellwidth*3/2-cellwidth/4-cellwidth/8);
+			rect(-3*cellwidth,-cellwidth/2,6*cellwidth,cellwidth);
+			fill(0);
+			text("EASY",0,0);
+		pop();
+		push();
+			if(hover != undefined && hover == 1) {
+				fill(200);
+			}
+			translate(0,-cellwidth/2-cellwidth/8);
+			rect(-3*cellwidth,-cellwidth/2,6*cellwidth,cellwidth);
+			fill(0);
+			text("MEDIUM",0,0);
+		pop();
+		push();
+			if(hover != undefined && hover == 2) {
+				fill(200);
+			}
+			translate(0,cellwidth/2+cellwidth/8);
+			rect(-3*cellwidth,-cellwidth/2,6*cellwidth,cellwidth);
+			fill(0);
+			text("INSANE",0,0);
+		pop();
+		push();
+			if(hover != undefined && hover == 3) {
+				fill(200);
+			}
+			translate(0,cellwidth*3/2+cellwidth/4+cellwidth/8);
+			rect(-3*cellwidth,-cellwidth/2,6*cellwidth,cellwidth);
+			fill(0);
+			text("OPTIONS",0,0);
+		pop();
+
+	pop();
+}
+
+// CUSTOM FUNCTIONS
+
+function displayscores() {
+	let timeto = endTime;
+	if(!timeto)
+		timeto = Date.now();
+	let formattime = formatTime(timeto-startTime);
+	let t = statstext.replace("$score",(score/100 | 0)).replace("$level","" + diffToLevel()).replace("$health",health).replace("$kills",kills).replace("$time",formattime);
+	text(t,0,0);
 }
 
 function diffToLevel() {
