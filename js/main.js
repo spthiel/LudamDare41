@@ -36,6 +36,7 @@ var quickies;
 gamestate = "menu"
 
 var hover = -1;
+var difficultyGame = "undef";
 
 function setup() {
 	if (!Date.now) {
@@ -56,12 +57,15 @@ function setupGame(difficultyChoosen) {
 	switch(difficultyChoosen) {
 		case 1:
 			setupEasyGame();
+			difficultyGame = "easy";
 			break;
 		case 2:
 			setupMediumGame();
+			difficultyGame = "medium";
 			break;
 		case 3:
 			setupInsaneGame();
+			difficultyGame = "insane";
 			break;
 	}
 	lastUpdate = 0;

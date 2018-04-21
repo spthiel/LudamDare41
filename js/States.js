@@ -73,7 +73,7 @@ function updateStart() {
 
 }
 
-var statstext = "Level: $level\nHealth: $health\nKills: $kills\nTime: $time";
+var statstext = "Difficulty: $difficulty\nLevel: $level\nHealth: $health\nKills: $kills\nTime: $time";
 
 function updateWin() {
 	push();
@@ -157,7 +157,7 @@ function displayscores() {
 	if(!timeto)
 		timeto = Date.now();
 	let formattime = formatTime(timeto-startTime);
-	let t = statstext.replace("$score",(score/100 | 0)).replace("$level","" + diffToLevel()).replace("$health",health).replace("$kills",kills).replace("$time",formattime);
+	let t = statstext.replace("$score",(score/100 | 0)).replace("$level","" + diffToLevel()).replace("$health",health).replace("$kills",kills).replace("$time",formattime).replace("$difficulty",difficultyGame);
 	text(t,0,0);
 }
 
