@@ -14,6 +14,14 @@ class Grid {
     	}
 	}
 
+	foreach(callback) {
+		for(let x = 0; x < this.width; x++) {
+			for(let y = 0; y < this.height; y++) {
+				callback(this.grid[x][y]);
+			}
+		}
+	}
+
 	definedNumbers(excludedCell) {
 		let returnVal = [];
 		for(let x = 0; x < this.width; x++) {
@@ -41,6 +49,46 @@ class Grid {
 		let rx = (dx+2.5*cellwidth)/cellwidth | 0;
 		let ry = (dy+2.5*cellwidth)/cellwidth | 0;
 		return this.grid[rx][ry];
+	}
+
+	checkDone() {
+		// rows
+		for(let x = 0; x < this.width; x++) {
+			let bool = true;
+			for(let y = 0; y < this.height; y++) {
+				if(this.grid[x][y].state != 2)
+					bool = false;
+			}
+			if(bool)
+				return true;
+		}
+
+		//columns
+		for(let y = 0; y < this.height; y++) {
+			let bool = true;
+			for(let x = 0; x < this.width; x++) {
+				if(this.grid[x][y].state != 2)
+					bool = false;
+			}
+			if(bool)
+				return true;
+		}
+
+		// diagonals
+		let bool = true;
+		for(let x = 0; x < this.width; x++) {
+			if(this.grid[x][x].state != 2)
+				bool = false;
+		}
+		if(bool)
+			return true;
+
+		bool = true;
+		for(let x = 0; x < this.width; x++) {
+			if(this.grid[x][this.width-x-1].state != 2)
+				bool = false;
+		}
+		return bool;
 	}
 
 	drawAll() {

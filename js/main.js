@@ -1,6 +1,6 @@
 
 const maxups = 60.0;
-const highestNumber = 500;
+const highestNumber = 100;
 const maxtimetoclick = 3000;
 const maxspawndelay = 5000;
 
@@ -9,12 +9,13 @@ var screen;
 var cellwidth = 100;
 var grid;
 var startTime;
+var endTime;
 var gamestate;
 var activeCell;
 var lastUpdate = 0;
 var difficulty = 1.0;
-var difficultyIncrease = 0.0001;
-var difficultyIncreaseIncrease = 0.0000001;
+var difficultyIncrease = 0.0005;
+var difficultyIncreaseIncrease = 0.000001;
 var lastReaction;
 var maxdifficulty = 5;
 var maxdifficultyincrease = 0.01;
@@ -22,24 +23,50 @@ var number;
 var lastNumberValue;
 var possibleNumbers = [];
 
+var button;
+var inputField;
+
+var kills = 0;
+
 var health = 5;
 var score = 0;
 
 var quickies;
 
+var started;
+
 function setup() {
 	if (!Date.now) {
     	Date.now = function() { return new Date().getTime(); }
 	}
-	lastUpdate = 0;
-	lastReaction = Date.now();
 	screen.w = window.innerWidth;
 	screen.h = window.innerHeight;
+	let canvas = createCanvas(screen.w,screen.h);
+	document.getElementsByClassName("placeholder")[0].appendChild(canvas.canvas);
 	cellwidth = screen.h*2/25;
 	if(screen.w*0.8/5 < cellwidth)
 		cellwidth = screen.w*0.8/5;
-	let canvas = createCanvas(screen.w,screen.h);
-	document.getElementsByClassName("placeholder")[0].appendChild(canvas.canvas);
+	if(grid)
+		grid.resize();
+	if(!started)
+	setupGame(2);
+	started = true;
+}
+
+function setupGame(difficultyChoosen) {
+	switch(difficultyChoosen) {
+		case 1:
+			setupEasyGame();
+			break;
+		case 2:
+			setupMediumGame();
+			break;
+		case 3:
+			setupInsaneGame();
+			break;
+	}
+	lastUpdate = 0;
+	lastReaction = Date.now();
 	if(!grid) {
 		grid = new Grid();
 		gamestate = "start";
@@ -47,9 +74,21 @@ function setup() {
 		for(let i = 0; i < highestNumber; i++) {
 			possibleNumbers[i] = i+1;
 		}
+		grid.resize();
 	}
-	grid.resize();
 	angleMode(DEGREES);
+}
+
+function setupEasyGame() {
+
+}
+
+function setupMediumGame() {
+
+}
+
+function setupInsaneGame() {
+
 }
 
 function getColor(frame) {
@@ -76,66 +115,20 @@ function draw() {
 
 }
 
-var button;
-var inputField;
 
 function update() {
 	background(100);
-	if(gamestate == "game") {
 
-		grid.drawAll();
-
-		if(Date.now() - lastReaction > maxspawndelay/difficulty) {
-			lastReaction = Date.now();
-			spawnRandomReaction();
-		}
-		difficulty += difficultyIncrease;
-		difficultyIncrease += difficultyIncreaseIncrease;
-		if(difficultyIncrease > maxdifficultyincrease)
-			difficultyIncrease = maxdifficultyincrease;
-		if(difficulty > maxdifficulty)
-			difficulty = maxdifficulty;
-
-		push();
-			translate(screen.w/2,screen.h/2);
-			fill(0);
-			noStroke();
-			textSize(cellwidth*4);
-			textAlign(CENTER,BOTTOM);
-			if(number == 0 || !number) {
-				newNumber();
-			}
-			text((number ? number : 0),0,0);
-		pop();
-
-		for(let i = 0; i < quickies.length; i++) {
-			let reaction = quickies[i];
-			if(reaction.isDead) {
-				quickies.splice(i,1);
-				i--;
-			} else {
-				reaction.draw();
-			}
-		}
-
-
-	} else if(gamestate == "start") {
-		push();
-			translate(screen.w/2,screen.h/2-cellwidth);
-			fill(0);
-			noStroke();
-			textSize(cellwidth/2);
-			textAlign(CENTER,CENTER);
-			text("Enter your bingo numbers below\n(1 to " + highestNumber + ")",0,0);
-		pop();
-		push();
-			translate(screen.w-cellwidth,screen.h-cellwidth/2-cellwidth/4);
-			rect(-cellwidth/2,-cellwidth/4,cellwidth,cellwidth/2);
-			textSize(cellwidth/4);
-			textAlign(CENTER,CENTER);
-			text("START",0,0);
-		pop();
-		grid.drawAll();
+	switch(gamestate) {
+		case "game":
+			updateGame();
+			break;
+		case "start":
+			updateStart();
+			break;
+		case "win":
+			updateWin();
+			break;
 	}
 	frame++;
 }
@@ -161,81 +154,3 @@ function spawnRandomReaction() {
 		spawnRandomReaction();
 	}
 }
-
-window.addEventListener( 'click', e => {
-	if(gamestate == "start") {
-		if(e.x > screen.w-cellwidth/2*3 && e.x < screen.w-cellwidth/2 && e.y < screen.h-cellwidth/2-cellwidth/4 && e.y > screen.h-cellwidth) {
-			gamestate = "game";
-			if(activeCell) {
-				activeCell.isActive = false;
-				activeCell = undefined;
-			}
-		} else {
-			if(activeCell) {
-				if(grid.definedNumbers(activeCell).includes(activeCell.number)) {
-					activeCell.number = 0;
-				}
-				activeCell.isActive = false;
-			}
-			let cell = grid.getCell(e.x,e.y);
-			if(cell != null) {
-				cell.isActive = true;
-				activeCell = cell;
-			} else {
-				activeCell = undefined;
-			}
-		}
-	} else if(gamestate == "game") {
-
-		for(let i = 0; i < quickies.length; i++) {
-			let reaction = quickies[i];
-			if(reaction.isDead) {
-				quickies.splice(i,1);
-				i--;
-			} else {
-				console.log(e.pageX,e.pageY,reaction,e.x,e.y);
-				reaction.onClick(e.pageX,e.pageY);
-			}
-		}
-		let cell = grid.getCell(e.x,e.y);
-		if(cell != null) {
-			if(cell.number == number) {
-				cell.state = 2;
-			}
-			newNumber();
-		}
-	}
-});
-
-window.onkeyup = e => {
-	if(gamestate == "start" && activeCell) {
-		var key = e.keyCode ? e.keyCode : e.which;
-		if(48 <= key && 57 >= key && gamestate == "start" && activeCell) {
-			let entered = key-48;
-			let currentNumber = activeCell.number;
-			currentNumber = currentNumber*10+entered;
-			if(currentNumber > highestNumber) {
-				currentNumber = highestNumber;
-			}
-			activeCell.number = currentNumber;
-		} else if(8 == key && gamestate == "start" && activeCell) {
-
-			let currentNumber = activeCell.number;
-			currentNumber = currentNumber/10 | 0;
-			activeCell.number = currentNumber;
-
-		} else if(13 == key && gamestate == "start" && activeCell) {
-			if(grid.definedNumbers(activeCell).includes(activeCell.number)) {
-				activeCell.number = 0;
-			}
-			activeCell.isActive = false;
-			activeCell = undefined
-		}
-	}
-}
-
-window.addEventListener( 'resize', function() {
-
-  setup();
-
-});

@@ -41,6 +41,7 @@ class QuickReactions {
 		if(x > this.x1-errorTol && x < this.x2+errorTol && y > this.y1-errorTol && y < this.y2+errorTol) {
 			score += maxtimetoclick-((Date.now()-this.timestart)*difficulty)
 			this.isDead = true;
+			kills++;
 			removeNumber();
 		}
 	}
