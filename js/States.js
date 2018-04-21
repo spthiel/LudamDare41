@@ -17,7 +17,6 @@ function updateGame() {
 	push();
 		translate(screen.w/2,screen.h/2);
 		fill(TEXTCOLOR);
-		noStroke();
 		textSize(cellwidth*4);
 		textAlign(CENTER,BOTTOM);
 		if(number == 0 || !number) {

@@ -110,7 +110,7 @@ class Grid {
 			push();
 				fill("rgba(0,0,0)");
 				strokeWeight(5);
-				rect(-(2.5)*cellwidth,-(2.5)*cellwidth,(2.5)*2*cellwidth,(2.5)*2*cellwidth);
+				rect(-(2.5)*cellwidth-2,-(2.5)*cellwidth-2,(2.5)*2*cellwidth+4,(2.5)*2*cellwidth+4,20,20);
 			pop();
 
 			for(let x = 0; x < this.width; x++) {
@@ -167,7 +167,19 @@ class Cell {
 			fill(0,200,0);
 		}
 		stroke(0);
-		rect(-cellwidth/2,-cellwidth/2,cellwidth,cellwidth);
+		let cornertl = 0;
+		let cornertr = 0;
+		let cornerbl = 0;
+		let cornerbr = 0;
+		if(this.x == 0 && this.y == 0)
+			cornertl = 20;
+		if(this.x == grid.width-1 && this.y == 0)
+			cornertr = 20;
+		if(this.x == 0 && this.y == grid.height-1)
+			cornerbl = 20;
+		if(this.x == grid.width-1 && this.y == grid.height-1)
+			cornerbr = 20;
+		rect(-cellwidth/2,-cellwidth/2,cellwidth,cellwidth,cornertl,cornertr,cornerbr,cornerbl);
 		if(this.state != 2) {
 			fill(BUTTONTEXTCOLOR);
 			noStroke();
