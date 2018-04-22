@@ -100,7 +100,7 @@ function updateLose() {
 		noStroke();
 		textSize(cellwidth/2);
 		textAlign(CENTER,BOTTOM);
-		text("The green squares ran you over.\nYou died!\n",0,0);
+		text("The gray squares ran you over.\nYou died!\n",0,0);
 		textAlign(LEFT,TOP);
 		translate(-cellwidth*2,0);
 		textSize(cellwidth/4);

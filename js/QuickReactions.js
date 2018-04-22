@@ -30,7 +30,7 @@ class QuickReactions {
 		push();
 			//rotate(this.deg);
 			push();
-				fill(255,255,255);
+				fill(200);
 				noStroke();
 				rect(this.x1,this.y1,cellwidth,cellwidth,cellwidth/5,cellwidth/5);
 			pop();

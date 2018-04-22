@@ -44,7 +44,6 @@ var difficultyGame = "undef";
 
 var bg;
 
-
 function setup() {
 	if (!Date.now) {
     	Date.now = function() { return new Date().getTime(); }
