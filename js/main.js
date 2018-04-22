@@ -51,7 +51,7 @@ function setup() {
 	}
 	screen.w = window.innerWidth;
 	screen.h = window.innerHeight;
-	let canvas = createCanvas(screen.w,screen.h);
+	let canvas = createCanvas(screen.w+10,screen.h+10);
 	document.getElementsByClassName("placeholder")[0].appendChild(canvas.canvas);
 	cellwidth = screen.h*2/25;
 	if(screen.w*0.8/5 < cellwidth)
@@ -59,6 +59,11 @@ function setup() {
 	if(grid)
 		grid.resize();
 	bg = new BgGrid(screen.w,screen.h,50,3);
+	if(screen.w < 800 || screen.h < 800) {
+		gamestate = "too small";
+	} else if(gamestate == "too small"){
+		gamestate = "menu";
+	}
 }
 
 function setupGame(difficultyChoosen) {
@@ -155,7 +160,6 @@ function update() {
 		fill(TEXTCOLOR);
 		text("Press ESC to get back to the main menu.\nRules:\n\t1. Get a bingo (5 in a row).\n\t2. Press your board to recycle the number.\n\t3. Don't die.",0,0);
 	pop();
-
 	switch(gamestate) {
 		case "game":
 			updateGame();
@@ -172,7 +176,11 @@ function update() {
 		case "menu":
 			updateMenu(hover);
 			break;
+		case "too small":
+			updateResizePls();
+			break;
 	}
+	updateParticles();
 	frame++;
 }
 
@@ -196,4 +204,15 @@ function spawnRandomReaction() {
 	} else {
 		spawnRandomReaction();
 	}
+}
+
+function screenshake() {
+
+	console.log("shake");
+
+	let el = document.getElementsByClassName("placeholder")[0];
+	el.className += " shake";
+
+	setTimeout(e => el.className = "placeholder",200);
+
 }

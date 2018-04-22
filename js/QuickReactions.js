@@ -17,6 +17,7 @@ class QuickReactions {
 	draw() {
 		if(maxtimetoclick-((Date.now()-this.timestart)*difficulty) < 0) {
 			this.isDead = true;
+			screenshake();
 			if(difficultyGame != "easy") {
 				health--;
 				if(health == 0) {
@@ -47,6 +48,8 @@ class QuickReactions {
 
 		if(x > this.x1-errorTol && x < this.x2+errorTol && y > this.y1-errorTol && y < this.y2+errorTol) {
 			score += maxtimetoclick-((Date.now()-this.timestart)*difficulty)
+			//registerParticles(new Shockwave((this.x1+this.x2)/2,(this.y1+this.y2)/2,cellwidth/10,cellwidth*2,200,255,255,255));
+			registerParticles(new Explosion((this.x1+this.x2)/2,(this.y1+this.y2)/2,100,600,255,255,255,6,0.02,cellwidth/2,cellwidth/2));
 			this.isDead = true;
 			kills++;
 			removeNumber();

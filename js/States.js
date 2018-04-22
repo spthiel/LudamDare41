@@ -166,6 +166,17 @@ function updateMenu(hover) {
 	pop();
 }
 
+function updateResizePls() {
+	push();
+		background(0);
+		fill([255,255,0]);
+		textSize(cellwidth/4);
+		textAlign(CENTER,CENTER);
+		translate(screen.w/2,screen.h/2);
+		text("I'm afraid to tell you,\nthat I need at least a resolution of\n800x800\nto render the game at a decent quality.\nSorry :(",0,0);
+	pop();
+}
+
 // CUSTOM FUNCTIONS
 
 function displayscores() {
