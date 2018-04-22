@@ -61,8 +61,16 @@ window.addEventListener( 'click', e => {
 /* key listener in startup phase for numberkeys and everywhere for esc/backspace to return to menu*/
 window.onkeyup = e => {
 	var key = e.keyCode ? e.keyCode : e.which;
-	if(gamestate == "start" && activeCell) {
-		if(48 <= key && 57 >= key && gamestate == "start" && activeCell) {
+	if(gamestate == "start") {
+		if(96 <= key && 105 >= key && activeCell) {
+			let entered = key-96;
+			let currentNumber = activeCell.number;
+			currentNumber = currentNumber*10+entered;
+			if(currentNumber > highestNumber) {
+				currentNumber = highestNumber;
+			}
+			activeCell.number = currentNumber;
+		} else if(48 <= key && 57 >= key && activeCell) {
 			let entered = key-48;
 			let currentNumber = activeCell.number;
 			currentNumber = currentNumber*10+entered;
@@ -70,18 +78,30 @@ window.onkeyup = e => {
 				currentNumber = highestNumber;
 			}
 			activeCell.number = currentNumber;
-		} else if(8 == key && gamestate == "start" && activeCell) {
+		} else if(8 == key && activeCell) {
 
 			let currentNumber = activeCell.number;
 			currentNumber = currentNumber/10 | 0;
 			activeCell.number = currentNumber;
 
-		} else if(13 == key && gamestate == "start" && activeCell) {
+		} else if(13 == key && activeCell) {
 			if(grid.definedNumbers(activeCell).includes(activeCell.number)) {
 				activeCell.number = 0;
 			}
 			activeCell.isActive = false;
 			activeCell = undefined
+		} else if(82 == key) {
+			grid.foreach(cell => {
+				do {
+					cell.number = random(highestNumber)+1 | 0
+				} while(grid.definedNumbers(cell).includes(cell.number))
+			});
+		} else if(84 == key) {
+			let i = 1;
+			grid.foreach(cell => {
+				cell.number = i;
+				i++;
+			});
 		}
 	} else if(key == 27 || key == 8) {
 		gamestate = "menu";
