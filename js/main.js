@@ -80,6 +80,8 @@ var bg;
 /* Font of the main text */
 var font;
 
+/* The canvas */
+var canvas;
 /* Called upon load of the page and resize */
 function setup() {
 	if (!Date.now) {
@@ -87,7 +89,7 @@ function setup() {
 	}
 	screen.w = window.innerWidth;
 	screen.h = window.innerHeight;
-	let canvas = createCanvas(screen.w+10,screen.h+10);
+	canvas = createCanvas(screen.w+10,screen.h+10);
 	document.getElementsByClassName("placeholder")[0].appendChild(canvas.canvas);
 	cellwidth = screen.h*2/25;
 	if(screen.w*0.8/5 < cellwidth)
@@ -185,6 +187,8 @@ function draw() {
 
 /* called at most maxups times per second, on avg should be called 60 times per second, updates everything*/
 function update() {
+	if(!canvas)
+		return;
 	background(0);
 	bg.draw();
 	push();

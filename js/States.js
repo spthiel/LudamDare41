@@ -119,9 +119,9 @@ function updateMenu(hover) {
 		fill(TEXTCOLOR);
 		textAlign(CENTER,BOTTOM);
 		textSize(cellwidth*2);
-		if(font)
+		if(font.font) {
 			textFont(font)
-		else {
+		} else {
 			textFont("alien encounters");
 		}
 		stroke(0);
