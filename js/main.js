@@ -77,6 +77,9 @@ var difficultyGame = "undef";
 /* stores the grid of the background */
 var bg;
 
+/* Font of the main text */
+var font;
+
 /* Called upon load of the page and resize */
 function setup() {
 	if (!Date.now) {
@@ -92,12 +95,9 @@ function setup() {
 	if(grid)
 		grid.resize();
 	bg = new BgGrid(screen.w,screen.h,50,3);
-	if(screen.w < 800 || screen.h < 800) {
-		gamestate = "too small";
-	} else if(gamestate == "too small"){
-		gamestate = "menu";
-	}
+	font = loadFont('font/aliee13.ttf');
 }
+
 
 /* Setups the settings of the game*/
 function setupGame(difficultyChoosen) {

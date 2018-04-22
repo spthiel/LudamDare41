@@ -46,34 +46,33 @@ class BgGrid {
 			this.foreach(cell => cell.fill());
 		pop();
 	}
-
 }
 
 class BgCell {
-  constructor (x,y,size,border,grid) {
-    this.grid = grid;
-    this.x = x;
-    this.y = y;
-    this.border = border;
-    this.rx = x*size;
-    this.ry = y*size;
-    this.size = size;
-    this.isSet = false;
-  }
+	constructor (x,y,size,border,grid) {
+		this.grid = grid;
+		this.x = x;
+		this.y = y;
+		this.border = border;
+		this.rx = x*size;
+		this.ry = y*size;
+		this.size = size;
+		this.isSet = false;
+	}
 
-  fill(color,b,g,a) {
-    let red = map(Math.abs(this.x),0,bg.center.x,100,0);
-    let blue = map(Math.abs(this.y),0,bg.center.y,100,0);
-	let green = map(red,0,150,0,20)
-    let c = [red,green,blue];
-    push()
-      translate(this.rx,this.ry);
-      fill(c);
-      noStroke();
-      let offset = this.size/2-this.border/2;
-      let size = this.size-this.border;
-      rect(-offset,-offset,size,size);
-    pop()
-  }
+	fill(color,b,g,a) {
+		let red = map(Math.abs(this.x),0,bg.center.x,100,0);
+		let blue = map(Math.abs(this.y),0,bg.center.y,100,0);
+		let green = map(red,0,150,0,20)
+		let c = [red,green,blue];
+		push()
+			translate(this.rx,this.ry);
+			fill(c);
+			noStroke();
+			let offset = this.size/2-this.border/2;
+			let size = this.size-this.border;
+			rect(-offset,-offset,size,size);
+		pop()
+	}
 
 }

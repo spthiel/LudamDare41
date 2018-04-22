@@ -119,7 +119,11 @@ function updateMenu(hover) {
 		fill(TEXTCOLOR);
 		textAlign(CENTER,BOTTOM);
 		textSize(cellwidth*2);
-		textFont("alien encounters")
+		if(font)
+			textFont(font)
+		else {
+			textFont("alien encounters");
+		}
 		stroke(0);
 		strokeWeight(15);
 		text("BLITZINGO",0,0);
@@ -178,18 +182,6 @@ function updateMenu(hover) {
 			text("OPTIONS",0,0);
 		pop();
 
-	pop();
-}
-
-/* called when the window is too small */
-function updateResizePls() {
-	push();
-		background(0);
-		fill([255,255,255]);
-		textSize(cellwidth/4);
-		textAlign(CENTER,CENTER);
-		translate(screen.w/2,screen.h/2);
-		text("I'm afraid to tell you,\nthat I need at least a resolution of\n800x800\nto render the game at a decent quality.\nSorry :(",0,0);
 	pop();
 }
 
