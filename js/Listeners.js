@@ -1,4 +1,4 @@
-
+/* click listener for the setup and ingame phase */
 window.addEventListener( 'click', e => {
 	if(gamestate == "start") {
 		if(e.x > screen.w-cellwidth/2*3 && e.x < screen.w-cellwidth/2 && e.y < screen.h-cellwidth/2 && e.y > screen.h-cellwidth) {
@@ -58,6 +58,7 @@ window.addEventListener( 'click', e => {
 	}
 });
 
+/* key listener in startup phase for numberkeys and everywhere for esc/backspace to return to menu*/
 window.onkeyup = e => {
 	var key = e.keyCode ? e.keyCode : e.which;
 	if(gamestate == "start" && activeCell) {
@@ -87,13 +88,14 @@ window.onkeyup = e => {
 	}
 }
 
-
+/* resize listener */
 window.addEventListener( 'resize', function() {
 
   setup();
 
 });
 
+/* click listern for main menu */
 window.addEventListener( 'click', e => {
 	let x = e.x;
 	let y = e.y;
@@ -112,6 +114,7 @@ window.addEventListener( 'click', e => {
 	}
 });
 
+/* hover events for main menu */
 window.addEventListener( 'mousemove', e => {
 	let x = e.x;
 	let y = e.y;

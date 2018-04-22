@@ -1,49 +1,83 @@
 
+/* Textcolor of text that's not placed on anything */
 const TEXTCOLOR = "rgb(255,255,255)";
+/* Color of buttons that are */
 const BUTTONCOLOR = "rgb(255,255,255)";
+/* Color of text on buttons */
 const BUTTONTEXTCOLOR = "rgb(0,0,0)";
 
+/* Max amount of updates per second */
 const maxups = 60.0;
+/* Represents the highest number that can be placed in the current grid */
 var highestNumber = 100;
+/* Time you have to click the squares at level 1 */
 var maxtimetoclick = 3000;
+/* Time between the appereanc of squares at level 1 */
 var maxspawndelay = 5000;
 
+/* Unused, represents the amount of frames */
 var frame = 0;
+/* screen.w = width of the screen, screen.h = height of the screen */
 var screen;
+/* scales with resolution of the window, everything scales with it */
 var cellwidth = 100;
+/* The bingo grid */
 var grid;
+/* Time the game last started */
 var startTime;
+/* Time when the game ended */
 var endTime;
+/* current state of the game possible values: game, start, options, win, lose, too small*/
 var gamestate;
+/* clicked cell at the setup page of the grid */
 var activeCell;
+/* ms since epoch when the last update happened */
 var lastUpdate = 0;
+/* factor for time between spawns and click time */
+const difficultyBase = 1.0;
 var difficulty = 1.0;
+/* value that increases the difficulty */
+const difficultyIncreaseBase = 0.0005;
 var difficultyIncrease = 0.0005;
+/* increases the increase with each tick */
+const difficultyIncreaseIncreaseBase = 0.000001;
 var difficultyIncreaseIncrease = 0.000001;
+/* ms since epoch when the last reaction was spawned */
 var lastReaction;
+/* highest difficulty */
 var maxdifficulty = 5;
+/* highest possible increase of the difficulty in a tick */
 var maxdifficultyincrease = 0.01;
+/* current bingo number */
 var number;
+/* last bingo number to prevent having the same number twice in a row*/
 var lastNumberValue;
+/* all still possible numbers */
 var possibleNumbers = [];
 
-var button;
-var inputField;
-
+/* amount of square 'kills' */
 var kills = 0;
 
+/* health */
 var health = 5;
+/* unused */
 var score = 0;
 
+/* all active reactions */
 var quickies;
 
+/* default gamestate = menu */
 gamestate = "menu"
 
+/* value for hovereffect in main menu */
 var hover = -1;
+/* choosen difficulty of the current game */
 var difficultyGame = "undef";
 
+/* stores the grid of the background */
 var bg;
 
+/* Called upon load of the page and resize */
 function setup() {
 	if (!Date.now) {
     	Date.now = function() { return new Date().getTime(); }
@@ -65,6 +99,7 @@ function setup() {
 	}
 }
 
+/* Setups the settings of the game*/
 function setupGame(difficultyChoosen) {
 	switch(difficultyChoosen) {
 		case 1:
@@ -80,6 +115,9 @@ function setupGame(difficultyChoosen) {
 			difficultyGame = "insane";
 			break;
 	}
+	difficulty = difficultyBase;
+	difficultyIncrease = difficultyIncreaseBase;
+	difficultyIncreaseIncrease = difficultyIncreaseIncreaseBase;
 	number = undefined;
 	kills = 0;
 	score = 0;
@@ -96,6 +134,7 @@ function setupGame(difficultyChoosen) {
 	angleMode(DEGREES);
 }
 
+/* Sets the variable for a game in easy difficulty */
 function setupEasyGame() {
 	health = 0;
 	highestNumber = 70;
@@ -103,6 +142,7 @@ function setupEasyGame() {
 	maxspawndelay = 10000;
 }
 
+/* Sets the variable for a game in medium difficulty */
 function setupMediumGame() {
 	health = 5;
 	highestNumber = 100;
@@ -110,6 +150,7 @@ function setupMediumGame() {
 	maxspawndelay = 5000;
 }
 
+/* Sets the variable for a game in insane difficulty */
 function setupInsaneGame() {
 	health = 1;
 	highestNumber = 300;
@@ -117,10 +158,7 @@ function setupInsaneGame() {
 	maxspawndelay = 2000;
 }
 
-function getColor(frame) {
-	return "hsl(" + (frame%720/2 | 0) + ",100%,50%)";
-}
-
+/* Removes the highest number that's not on the grid if possible */
 function removeNumber() {
 	let setNumbers = grid.definedNumbers();
 	for(let i = possibleNumbers.length-1; i >= 0; i--) {
@@ -132,6 +170,7 @@ function removeNumber() {
 	}
 }
 
+/* Function to end the game */
 function endGame(){
 
 	gamestate = "lose"
@@ -139,6 +178,7 @@ function endGame(){
 
 }
 
+/* Gets called by p5 (infinite loop) */
 function draw() {
 
 	if(Date.now()-lastUpdate > 1000.0/maxups) {
@@ -148,7 +188,7 @@ function draw() {
 
 }
 
-
+/* called at most maxups times per second, on avg should be called 60 times per second, updates everything*/
 function update() {
 	background(0);
 	bg.draw();
@@ -178,11 +218,15 @@ function update() {
 		case "too small":
 			updateResizePls();
 			break;
+		case "options":
+			updateOptions();
+			break;
 	}
 	updateParticles();
 	frame++;
 }
 
+/* Generates a new bingo number */
 function newNumber() {
 	number = possibleNumbers[random(possibleNumbers.length) | 0];
 	if(number == lastNumberValue) {
@@ -192,9 +236,10 @@ function newNumber() {
 	}
 }
 
+/* distance from screenborder where no reaction can spawn */
 var border = 100;
 
-
+/* Spawns a new reaction */
 function spawnRandomReaction() {
 	let x = random(screen.w-2*border)+border;
 	let y = random(screen.h-2*border)+border;
@@ -205,9 +250,8 @@ function spawnRandomReaction() {
 	}
 }
 
+/* Shake it baby! */
 function screenshake() {
-
-	console.log("shake");
 
 	let el = document.getElementsByClassName("placeholder")[0];
 	el.className += " shake";

@@ -1,3 +1,4 @@
+/* bingo grid */
 class Grid {
 	constructor() {
 		this.width = 5;
@@ -22,6 +23,7 @@ class Grid {
 		}
 	}
 
+	/* returns the numbers that are set in the grid */
 	definedNumbers(excludedCell) {
 		let returnVal = [];
 		for(let x = 0; x < this.width; x++) {
@@ -37,10 +39,12 @@ class Grid {
 		return returnVal;
 	}
 
+	/* called upon resize to reassign the center */
 	resize() {
 		this.center = {x:screen.w/2,y:screen.h-(cellwidth*2.5+cellwidth/2)};
 	}
 
+	/* returns the cell below pageX and pageY, returns null if there's none */
 	getCell(x,y) {
 		if(x < this.center.x-cellwidth*2.5 || x > this.center.x+cellwidth*2.5 || y < this.center.y-cellwidth*2.5 || y > this.center.y+cellwidth*2.5) //out of grid
 			return null;
@@ -51,6 +55,7 @@ class Grid {
 		return this.grid[rx][ry];
 	}
 
+	/* checks if all of the cells have an assigned value */
 	checkGrid() {
 		let bool = true;
 		for(let x = 0; x < this.width; x++) {
@@ -64,6 +69,8 @@ class Grid {
 		return bool;
 	}
 
+	/* checks if the game ended */
+	/* if you read this, never check if the game ended the way I did */
 	checkDone() {
 		// rows
 		for(let x = 0; x < this.width; x++) {
@@ -104,6 +111,7 @@ class Grid {
 		return bool;
 	}
 
+	/* draws all cells with content */
 	drawAll() {
 		push();
 			translate(this.center.x,this.center.y);
@@ -126,8 +134,10 @@ class Grid {
 
 }
 
+/* transition time */
 var timeToChange = 400;
 
+/* cell object */
 class Cell {
 
 	constructor(x,y) {
@@ -142,6 +152,7 @@ class Cell {
 		this.changingBack = false;
 	}
 
+	/* draws the cell */
 	draw() {
 		if((Date.now()/700 | 0)%2 == 0 && this.isActive) {
 			this.text = "|";
@@ -189,6 +200,7 @@ class Cell {
 		}
 	}
 
+	/* starts transition back to white 100ms later */
 	changeStateLater() {
 		if(!this.changing) {
 			this.changing = true;
@@ -203,6 +215,7 @@ class Cell {
 		}
 	}
 
+	/* sets the numbervalue */
 	setNumber(number) {
 		this.number = number;
 	}

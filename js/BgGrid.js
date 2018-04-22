@@ -1,3 +1,4 @@
+/* Randers the background */
 class BgGrid {
 
 	constructor(fwidth,fheight,spacing,borderwidth) {

@@ -1,5 +1,7 @@
+/* all paticles */
 var particles = [];
 
+/* updates all paritcles */
 function updateParticles() {
 
 	for(let i = 0; i < particles.length; i++) {
@@ -14,14 +16,19 @@ function updateParticles() {
 
 }
 
+/* call to add particles that get updated */
 function registerParticles(particle) {
 	particles[particles.length] = particle;
 }
 
+/* clears all particles, for easier readability in rest of code. */
+/* unused */
 function clearParticles() {
 	particles = [];
 }
 
+/* creates a Shockwave */
+/* unused */
 class Shockwave {
 
 	constructor(x,y,minradius,maxradius,time,r,g,b) {
@@ -63,8 +70,7 @@ class Shockwave {
 	}
 }
 
-var gravity = 0.05;
-
+/* create an explosion of particles */
 class Explosion {
 
 	constructor(x,y,amount,time,r,g,b,speed,gravity,dx,dy) {

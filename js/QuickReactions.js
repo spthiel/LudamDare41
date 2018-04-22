@@ -1,5 +1,7 @@
+/* distance around the object where the click still counts in pixel */
 var errorTol = 50;
 
+/* class for the reactions */
 class QuickReactions {
 
 	constructor(x,y) {
@@ -14,6 +16,7 @@ class QuickReactions {
 			this.deg += 360;
 	}
 
+	/* draws the reaction */
 	draw() {
 		if(maxtimetoclick-((Date.now()-this.timestart)*difficulty) < 0) {
 			this.isDead = true;
@@ -43,7 +46,7 @@ class QuickReactions {
 		pop();
 	}
 
-
+	/* checks if the click was on the object if yes kill the object */
 	onClick(x,y) {
 
 		if(x > this.x1-errorTol && x < this.x2+errorTol && y > this.y1-errorTol && y < this.y2+errorTol) {

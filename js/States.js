@@ -1,4 +1,4 @@
-
+/* get's called when in game to update the game */
 function updateGame() {
 
 	grid.drawAll();
@@ -44,6 +44,7 @@ function updateGame() {
 	}
 }
 
+/* get's called when in setup to update the grid */
 function updateStart() {
 
 	push();
@@ -76,8 +77,10 @@ function updateStart() {
 
 }
 
+/* text that will be displayed for the stats */
 var statstext = "Difficulty: $difficulty\nLevel: $level\nHealth: $health\nKills: $kills\nTime: $time";
 
+/* get's called when in winscreen (wouldn't really need to be updated but whatever) */
 function updateWin() {
 	push();
 		translate(screen.w/2,screen.h/2-cellwidth);
@@ -93,6 +96,7 @@ function updateWin() {
 	pop();
 }
 
+/* get's called when in losescreen (wouldn't really need to be updated but whatever) */
 function updateLose() {
 	push();
 		translate(screen.w/2,screen.h/2-cellwidth);
@@ -108,7 +112,18 @@ function updateLose() {
 	pop();
 }
 
+/* updates the main menu */
 function updateMenu(hover) {
+	push();
+		translate(screen.w/2,screen.h/2-2*cellwidth-cellwidth/2);
+		fill(TEXTCOLOR);
+		textAlign(CENTER,BOTTOM);
+		textSize(cellwidth*2);
+		textFont("alien encounters")
+		stroke(0);
+		strokeWeight(15);
+		text("BLITZINGO",0,0);
+	pop();
 	push();
 		translate(screen.w/2,screen.h/2);
 		textAlign(CENTER,CENTER);
@@ -166,10 +181,11 @@ function updateMenu(hover) {
 	pop();
 }
 
+/* called when the window is too small */
 function updateResizePls() {
 	push();
 		background(0);
-		fill([255,255,0]);
+		fill([255,255,255]);
 		textSize(cellwidth/4);
 		textAlign(CENTER,CENTER);
 		translate(screen.w/2,screen.h/2);
@@ -177,8 +193,20 @@ function updateResizePls() {
 	pop();
 }
 
+/* called when in options (never gotten around to add any options so now it's just there) */
+function updateOptions() {
+	push();
+		fill([255,255,255]);
+		textSize(cellwidth/2);
+		textAlign(CENTER,CENTER);
+		translate(screen.w/2,screen.h/2);
+		text("What options do you need?",0,0);
+	pop();
+}
+
 // CUSTOM FUNCTIONS
 
+/* calls text() and writes the scoreboard to position/align use them beforehand */
 function displayscores() {
 	let timeto = endTime;
 	if(!timeto)
@@ -191,10 +219,12 @@ function displayscores() {
 	text(t,0,0);
 }
 
+/* function to calculate the level based of the difficulty */
 function diffToLevel() {
 	return (6.188*(difficulty-1)*(difficulty-1)+1) | 0;
 }
 
+/* used to format a time difference in format m:ss.SSS */
 function formatTime(timedif) {
 	let ms = timedif%1000;
 	timedif = (timedif-timedif%1000)/1000;
