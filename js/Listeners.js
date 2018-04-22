@@ -20,6 +20,7 @@ window.addEventListener( 'click', e => {
 			if(activeCell) {
 				if(grid.definedNumbers(activeCell).includes(activeCell.number)) {
 					activeCell.number = 0;
+					activeCell.state = 1;
 				}
 				activeCell.isActive = false;
 			}
@@ -87,6 +88,7 @@ window.onkeyup = e => {
 		} else if(13 == key && activeCell) {
 			if(grid.definedNumbers(activeCell).includes(activeCell.number)) {
 				activeCell.number = 0;
+				activeCell.state = 1;
 			}
 			activeCell.isActive = false;
 			activeCell = undefined
