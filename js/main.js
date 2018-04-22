@@ -187,8 +187,10 @@ function draw() {
 
 /* called at most maxups times per second, on avg should be called 60 times per second, updates everything*/
 function update() {
-	if(!canvas)
+	if(!canvas) {
+		requestAnimationFrame(update);
 		return;
+	}
 	background(0);
 	bg.draw();
 	push();
