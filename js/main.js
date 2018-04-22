@@ -181,11 +181,6 @@ function endGame(){
 /* Gets called by p5 (infinite loop) */
 function draw() {
 
-	if(Date.now()-lastUpdate > 1000.0/maxups) {
-		update();
-		lastUpdate = Date.now();
-	}
-
 }
 
 /* called at most maxups times per second, on avg should be called 60 times per second, updates everything*/
@@ -223,7 +218,7 @@ function update() {
 			break;
 	}
 	updateParticles();
-	frame++;
+	requestAnimationFrame(update);
 }
 
 /* Generates a new bingo number */
@@ -259,3 +254,5 @@ function screenshake() {
 	setTimeout(e => el.className = "placeholder",200);
 
 }
+
+requestAnimationFrame(update);

@@ -41,7 +41,8 @@ class QuickReactions {
 				fill("rgba(255,255,255,.1)");
 				stroke('rgba(255,255,255,.7)');
 				let radius = cellwidth/3-cellwidth/3*((Date.now()-this.timestart)*difficulty/maxtimetoclick);
-				rect(this.x1-radius,this.y1-radius,cellwidth+2*radius,cellwidth+2*radius,cellwidth/5,cellwidth/5);
+				if(radius > 0)
+					rect(this.x1-radius,this.y1-radius,cellwidth+2*radius,cellwidth+2*radius,cellwidth/5,cellwidth/5);
 			pop();
 		pop();
 	}
