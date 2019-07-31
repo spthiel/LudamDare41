@@ -74,9 +74,6 @@ var hover = -1;
 /* choosen difficulty of the current game */
 var difficultyGame = "undef";
 
-/* stores the grid of the background */
-var bg;
-
 /* Font of the main text */
 var font;
 
@@ -96,7 +93,6 @@ function setup() {
 		cellwidth = screen.w*0.8/5;
 	if(grid)
 		grid.resize();
-	bg = new BgGrid(screen.w,screen.h,50,3);
 	font = loadFont('font/aliee13.ttf');
 }
 
@@ -191,8 +187,7 @@ function update() {
 		requestAnimationFrame(update);
 		return;
 	}
-	background(0);
-	bg.draw();
+	clear();
 	push();
 		translate(10,10);
 		textAlign(LEFT,TOP);

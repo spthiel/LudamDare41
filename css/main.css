@@ -24,4 +24,13 @@
 #defaultCanvas0 {
 	margin-left: -5px;
 	margin-top: -5px;
+	--var-blackwidth: 3px;
+	--var-black: calc(var(--var-blackwidth) / 2);
+	--var-total: 50px;
+	background:
+	repeating-linear-gradient(90deg, black calc(50vw - var(--var-total) / 2), black calc(50vw - var(--var-total) / 2 + var(--var-black)), transparent calc(50vw - var(--var-total) / 2 + var(--var-black)), transparent calc(50vw + var(--var-total) / 2 - var(--var-black)),black calc(50vw + var(--var-total) / 2 - var(--var-black)), black calc(50vw + var(--var-total) / 2)),
+	repeating-linear-gradient(       black calc(50vh - var(--var-total) / 2), black calc(50vh - var(--var-total) / 2 + var(--var-black)), transparent calc(50vh - var(--var-total) / 2 + var(--var-black)), transparent calc(50vh + var(--var-total) / 2 - var(--var-black)), black calc(50vh + var(--var-total) / 2 - var(--var-black)), black calc(50vh + var(--var-total) / 2)),
+	linear-gradient(rgba(80,0,0,.5), rgba(0,0,80,.5), rgba(80,0,0,.5)),
+	linear-gradient(90deg, rgb(0,0,80), rgb(80,0,0), rgb(0,0,80));
+
 }
